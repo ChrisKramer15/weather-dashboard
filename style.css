@@ -1,6 +1,26 @@
 .sidebar {
-    width: 25%;
     border-color: black;
     border-style: solid;
-    padding-bottom: 30%;
+    margin-right: 15px;
+
 }
+
+.mainContent {
+    border-color: black;
+    border-style: solid;
+
+}
+
+body {
+    margin: 20px;
+}
+
+.futureWeather {
+    border-style: solid;
+    border-color: black;
+}
+
+.col-9 {
+    padding: 5px;
+}
+

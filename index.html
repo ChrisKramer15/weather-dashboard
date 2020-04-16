@@ -4,16 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" text="text/css" href="./style.css">
 </head>
 <body>
+    <div class="container">
+    <div class="row">
+        <div class="col-3">
     <section class="sidebar">
-        <h3>This is a sidebar</h3>
-        <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt animi quas sit repellendus corrupti neque porro, esse in quibusdam, unde minima! Tempore quam voluptas quos sequi soluta sed? Repellat, quisquam.
-        </p>
-    </section>
+        <h2>This is a sidebar</h3>
+        <input type="text" id="searchText" name="searchText">
+        <input type="button" id="searchBtn" name = "searchBtn">
 
+        <div class="recentSearch">
+            <h3>This will include recent searches</h4>
+        </div>
+    </section>
+</div>
+<div class="col-9">
+    <main class = "mainContent" col-md-9>
+    <div class="row">
+        <div class="currentWeather">
+            <h2>Current Weather Data</h2>
+            <h3>Todays Date</h3>
+            <h3>This is the City</h3></h4>
+            <section>
+                Placeholder for current weather conditions
+            </section>
+        </div>
+    </div>
+        <div class="row">
+            <div class="futureWeather">
+            placeholder for future conditions
+        </div>
+        </div>
+
+</main>
+</div>
+</div>
+</div>
     <script src="./scripts.js"></script>
 </body>
 </html>
