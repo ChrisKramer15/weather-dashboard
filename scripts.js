@@ -130,7 +130,6 @@ function renderFiveDayForecast(city) {
 }
 
 function renderButtons() {
-  //var cities = ["Seattle", "Munich", "Honolulu", "Washington DC", "San Diego", "Kansas CIty", "Chicago", "Nashville"];
   const cities = JSON.parse(localStorage.getItem("cities"));
   if (!localStorage.getItem("cities")) {
     localStorage.setItem("cities", JSON.stringify([]));
