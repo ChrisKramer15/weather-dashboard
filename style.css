@@ -1,0 +1,14 @@
+h1,
+.col-3,
+.col-8 {
+  border-style: ridge;
+  border-color: orange;
+  border-width: 0.2em;
+  margin: 2em;
+  text-align: center;
+}
+
+.col-3,
+.col-8 {
+  float: left;
+}
