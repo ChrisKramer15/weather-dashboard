@@ -1,181 +1,134 @@
-var apiKey = "b3d4ffb82a70ee7f0cd14ee1afcc08c9";
-var weatherKey = "&units=imperial&APPID=b3d4ffb82a70ee7f0cd14ee1afcc08c9";
-var today = moment().format("MM/DD/YYYY");
-var cities = [];
-
-function alertCityName() {
-  var cityName = $(this).attr("data-name");
-  alert(cityName);
+//local storage declaration condition statement
+let cities;
+if (localStorage.getItem("cities")) {
+  cities = JSON.parse(localStorage.getItem("cities"));
+} else {
+  cities = [];
 }
+let buttonFunction = JSON.parse(localStorage.getItem("cities"));
+console.log(buttonFunction);
+for (let i = 0; i < 10; i++) {
+  const newDiv = $("<div>");
+  const newSearch = $("<button>")
+    .text(buttonFunction[i])
+    .attr("class", "btn btn-warning")
+    .attr("id", `newBtn`);
+  newDiv.prepend(newSearch);
+  $("#visits").prepend(newDiv);
+}
+$(newBtn).on("click", () => {});
 
-function displayCityWeather(city) {
-  $("#currentWeather").empty();
-  var queryURL =
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
-    city +
-    "&units=imperial&APPID=b3d4ffb82a70ee7f0cd14ee1afcc08c9";
+$(submitBtn).on("click", function (event) {
+  event.preventDefault();
+
+  //empty contents of table so data does not add on
+  $("thead").empty();
+  $("tbody").empty();
+
+  //api query initialized
+  const apiKey = `781966aaf116c3e54cb3db0f70d397fe`;
+  const newValue = $("#cityInput").val();
+
+  //local storage functions
+  localStorage.setItem("cities", JSON.stringify(cities));
+  var retrievedData = localStorage.getItem("cities");
+  var newData = JSON.parse(retrievedData);
+  if (cities.length >= 10) {
+    cities.shift();
+    cities.push(newValue);
+  } else {
+    cities.push(newValue);
+  }
+
+  var queryUrl = `https://api.openweathermap.org/data/2.5/weather?q=${newValue},us&appid=${apiKey}`;
+  //   //ajax call to pull current weather data for submitted city
   $.ajax({
-    url: queryURL,
+    url: queryUrl,
     method: "GET",
-  }).then(function (response) {
-    console.log(response);
-    var iconCode = response.weather[0].icon;
-    var iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
-    var currentTemp = Math.round(response.main.temp);
-    var currentHumid = Math.round(response.main.humidity);
-
-    $("#current-city").html(
-      response.name + " (" + today + ")" + "<img src=" + iconUrl + ">"
+  }).then(function (res) {
+    //city that has been searched will be displayed in header
+    const newHeader = $("<tr>");
+    const newCity = $("<h2>").text(res.name);
+    const currentIcon = $("<img>").attr(
+      "src",
+      "https://openweathermap.org/img/w/" + res.weather[0].icon + ".png"
     );
-    $("#current-temp").text(`Temperature: ${currentTemp}° F`);
-    $("#current-hum").text("Humidity: " + currentHumid + " %");
-    $("#current-wind").text("Wind Speed: " + response.wind.speed + " MPH");
-    var lat = response.coord.lat;
-    var lon = response.coord.lon;
-    var queryURL =
-      "https://api.openweathermap.org/data/2.5/uvi?&APPID=b3d4ffb82a70ee7f0cd14ee1afcc08c9&lat=" +
-      lat +
-      "&lon=" +
-      lon;
-    $.ajax({
-      url: queryURL,
-      method: "GET",
-    }).then(function (response) {
-      console.log(response);
-      var uvIndex = response.value;
-      var uvColorCode = "";
-      if (uvIndex <= 1) {
-        uvColorCode = "#228B22";
-      } else if (uvIndex <= 2) {
-        uvColorCode = "#006400";
-      } else if (uvIndex <= 3) {
-        uvColorCode = "#FFFF66";
-      } else if (uvIndex <= 4) {
-        uvColorCode = "#FFFF33";
-      } else if (uvIndex <= 5) {
-        uvColorCode = "#FFFF00";
-      } else if (uvIndex <= 6) {
-        uvColorCode = "#ffa500";
-      } else if (uvIndex <= 7) {
-        uvColorCode = "#FF8c00";
-      } else if (uvIndex <= 8) {
-        uvColorCode = "#FF4500";
-      } else if (uvIndex <= 9) {
-        uvColorCode = "#ff0000";
-      } else if (uvIndex <= 10) {
-        uvColorCode = "#8b0000";
-      } else if (uvIndex <= 11) {
-        uvColorCode = "#9370DB";
-      } else if ((uvIndex) => 11) {
-        uvColorCode = "#800080";
-      }
-      $("#current-uv")
-        .text(uvIndex)
-        .attr("style", "background-color: " + uvColorCode);
-    });
+    const currentTitle = $("<h4>").text("Current Weather");
+    newHeader.prepend(newCity, currentTitle, currentIcon);
+    $("thead").prepend(newHeader);
+
+    //display current conditions
+    const currentTemp = ((Number(res.main.temp) - 273.15) * 9) / 5 + 32;
+    const newTemp = Math.trunc(currentTemp);
+    const currentHumidity = res.main.humidity;
+    const currentWind = res.wind.speed;
+    const appendTemp = $("<tr>").append(`Temperature: ${newTemp}F`);
+    const appendHumidity = $("<tr>").append(`Humidity: ${currentHumidity}%`);
+    const appendWind = $("<tr>").append(`Wind Speed: ${currentWind}MPH`);
+    $("tbody").append(appendTemp, appendHumidity, appendWind);
   });
-}
 
-function renderFiveDayForecast(city) {
-  $("#five-day-forecast").empty();
-
-  var queryURL =
-    "https://api.openweathermap.org/data/2.5/forecast?q=" +
-    city +
-    "&units=imperial&APPID=b3d4ffb82a70ee7f0cd14ee1afcc08c9";
-  console.log(queryURL + " is OpenWeatherMap City 5 day forecast info");
+  //ajax call for forecast
+  let newQuery = `https://api.openweathermap.org/data/2.5/forecast?q=${newValue}&appid=${apiKey}`;
 
   $.ajax({
-    url: queryURL,
+    url: newQuery,
     method: "GET",
-  }).then(function (response) {
-    console.log(response);
+  }).then((res) => {
+    console.log(res);
+    var latLocate = res.city.coord.lat;
+    var lonLocate = res.city.coord.lon;
+    var uvQuery = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${latLocate}&lon=${lonLocate}`;
+    $.ajax({
+      url: uvQuery,
+      method: "GET",
+    }).then((res) => {
+      if (res.value >= 8) {
+        var uvLevel = "red";
+      } else if (res.value >= 6) {
+        var uvLevel = "orange";
+      } else if (res.value >= 3) {
+        var uvLevel = "yellow";
+      } else {
+        var uvLevel = "green";
+      }
+      const uvIndex = $("<tr>")
+        .append(`UV Index: ${res.value}`)
+        .attr("style", `background-color: ${uvLevel}`);
+      $("tbody").append(uvIndex);
+    });
 
-    $("#five-day-forecast").empty();
+    //for loops to populate the weather cards
+    var j = 0;
+    for (let i = 0; i < 40; i += 8) {
+      //break apart date and input into cards
+      let dateMonth = res.list[i].dt_txt.slice(5, 7);
+      let dateDay = res.list[i].dt_txt.slice(8, 10);
+      let newDate = `${dateMonth}-${dateDay}`;
+      let forecastHeader = $("<tr>");
+      forecastHeader.prepend(newDate);
+      j += 1;
+      $(`#card${j}`).prepend(forecastHeader);
 
-    for (var i = 0; i <= 4; i++) {
-      console.log(i);
-
-      var nextDay = moment()
-        .add(1 + i, "days")
-        .format("MM/DD/YYY");
-      var cityIconForecastCode = response.list[i].weather[0].icon;
-      var iconForecastURL =
-        "http://openweathermap.org/img/wn/" + cityIconForecastCode + "@2x.png";
-      var cityTemperatureForecast = Math.round(response.list[i].main.temp);
-      var cityHumidityForecast = response.list[i].main.humidity;
-
-      $("#five-day-forecast").append(
-        $("<div>")
-          .addClass("card text-white bg-primary float-left")
-          .attr("id", "forecast-card")
-          .attr("style", "max-width: 10rem; margin-left: 23px")
-          .append($("<p>").html(nextDay))
-          .append(
-            $("<img src=" + iconForecastURL + ">")
-              .attr("height", "50px")
-              .attr("width", "50px")
-          )
-          .append(
-            $("<p>").html("Temperature: " + cityTemperatureForecast + "° F")
-          )
-          .append($("<p>").html("Humidity: " + cityHumidityForecast + " %"))
+      //create row for image and populate into cards
+      let iconRow = $("<tr>");
+      let forecastIcon = $("<img>").attr(
+        "src",
+        "https://openweathermap.org/img/w/" +
+          res.list[i].weather[0].icon +
+          ".png"
       );
-      $("#five-day-forecast").append;
-      console.log(
-        nextDay + ", " + cityTemperatureForecast + ", " + cityHumidityForecast
-      );
+      iconRow.append(forecastIcon);
+      $(`#card${j}`).append(iconRow);
+
+      //populate card with temperature and humidity items
+      let forecastTemp =
+        ((Number(res.list[i].main.temp) - 273.15) * 9) / 5 + 32;
+      let farenheitTemp = Math.trunc(forecastTemp);
+      let forecastHumidity = res.list[i].main.humidity;
+      let finalTemp = $("<tr>").append(`Temperature: ${farenheitTemp}F`);
+      let finalHumidity = $("<tr>").append(`Humidity: ${forecastHumidity}%`);
+      $(`#card${j}`).append(finalTemp, finalHumidity);
     }
   });
-}
-
-function renderButtons() {
-  const cities = JSON.parse(localStorage.getItem("cities"));
-  if (!localStorage.getItem("cities")) {
-    localStorage.setItem("cities", JSON.stringify([]));
-  }
-  $("#buttons-view").empty();
-  var searchListLength = cities.length;
-  if (searchListLength >= 8) {
-    searchListLength -= 8;
-  } else {
-    searchListLength = 0;
-  }
-  for (var i = searchListLength; i <= cities.length; i++) {
-    var a = $("<button>");
-    a.attr("type", "button");
-    a.addClass("list-group-item");
-    a.addClass("city");
-    a.attr("data-name", cities[i]);
-    a.text(cities[i]);
-    $("#buttons-view").prepend(a);
-  }
-}
-
-$("#add-city").on("click ", function (event) {
-  event.preventDefault();
-  var city = $("#city-input").val().trim();
-  const cities = JSON.parse(localStorage.getItem("cities"));
-  cities.push(city);
-  localStorage.setItem("cities", JSON.stringify(cities));
-  displayCityWeather(city);
-  renderFiveDayForecast(city);
-  renderButtons();
-  $("#city-input").val("");
-  console.log("#add-city was clicked");
 });
-
-$(document).on("click", ".city", function () {
-  var city = $(this).attr("data-name");
-  displayCityWeather(city);
-  renderFiveDayForecast(city);
-});
-
-function start() {
-  renderButtons();
-  const stored_cities = JSON.parse(localStorage.getItem("cities"));
-  displayCityWeather(stored_cities[stored_cities.length - 1]);
-  renderFiveDayForecast(stored_cities[stored_cities.length - 1]);
-}
-
-start();

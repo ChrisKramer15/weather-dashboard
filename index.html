@@ -3,80 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather App</title>
+    <title>Document</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" type="text/css" href="./style.css" />
   </head>
-
   <body>
-    <header class="navbar py-3 mb-3" id="weather-dashboard">
-      <h1 class="offset-4" id="header-text">Weather Dashboard</h1>
+    <header>
+      <h1>Weather Dashboard</h1>
     </header>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-8">
-          <div
-            class="card"
-            id="currentWeatherInfo"
-            style="margin-bottom: 25px;"
-          >
-            <div class="card-body currentWeather">
-              <h3 class="card-title" id="current-city"></h3>
-              <img id="weatherIcon" />
-              <p class="card-text" id="current-temp">Temperature:</p>
-              <p class="card-text" id="current-hum">Humidity:</p>
-              <p class="card-text" id="current-wind">Wind Speed:</p>
-              <p class="card-text" id="current-index">
-                UV Index: <span class="badge" id="current-uv"></span>
-              </p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <h3 id="forecast-header">Five Day Forecast:</h3>
-            </div>
-
-            <div class="row">
-              <div class="forecast-info">
-                <div class="five-day" id="five-day-forecast"></div>
+    <div class="row">
+      <div class="col-3">
+        <h2>City Weather Search</h2>
+        <input type="text" id="cityInput" />
+        <button id="submitBtn">Search</button>
+        <h2>Recent Searches</h2>
+        <section id="visits"></section>
+      </div>
+      <div class="col-8">
+        <div class="container" id="contain">
+          <table class="table">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+          <table class="forecast">
+            <h2 class="five-day">5 Day Forecast</h2>
+            <div class="forecastCard">
+              <div
+                class="card text-white bg-success mb-3"
+                style="max-width: 18rem;"
+                id="card1"
+              >
+                <div class="card-body"></div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="col-3" id="city-search">
-          <div class="input-group">
-            <form id="weather-form">
-              <h3 for="city-input" id="city-search-input">
-                Search for a City:
-              </h3>
-              <input type="text" id="city-input" />
-              <button id="add-city" type="submit" value="reset">
-                <span class="fa fa-search" style="color: blue;"></span>
-              </button>
-            </form>
-          </div>
-          <br />
-          <div class="list-group" id="buttons-view"></div>
-          <br />
+            <div class="forecastCard">
+              <div
+                class="card text-white bg-success mb-3"
+                style="max-width: 18rem;"
+                id="card2"
+              >
+                <div class="card-body"></div>
+              </div>
+            </div>
+            <div class="forecastCard">
+              <div
+                class="card text-white bg-success mb-3"
+                style="max-width: 18rem;"
+                id="card3"
+              >
+                <div class="card-body"></div>
+              </div>
+            </div>
+            <div class="forecastCard">
+              <div
+                class="card text-white bg-success mb-3"
+                style="max-width: 18rem;"
+                id="card4"
+              >
+                <div class="card-body"></div>
+              </div>
+            </div>
+            <div class="forecastCard">
+              <div
+                class="card text-white bg-success mb-3"
+                style="max-width: 18rem;"
+                id="card5"
+              >
+                <div class="card-body"></div>
+              </div>
+            </div>
+          </table>
         </div>
       </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="./scripts.js"></script>
   </body>
 </html>
