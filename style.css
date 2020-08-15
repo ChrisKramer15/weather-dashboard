@@ -6,9 +6,46 @@ h1,
   border-width: 0.2em;
   margin: 2em;
   text-align: center;
+  background-color: lightcyan;
 }
 
 .col-3,
 .col-8 {
   float: left;
+}
+
+tbody p {
+  font-size: 1.5em;
+}
+
+tbody img {
+  width: 20%;
+  height: 20%;
+}
+
+/* .card {
+  visibility: hidden;
+} */
+
+.forecastCard {
+  float: left;
+  width: 15%;
+  margin: 2.3%;
+}
+
+.five-day {
+  border-top-style: ridge;
+  border-color: chartreuse;
+  border-width: 0.2em;
+}
+
+body {
+  background-color: grey;
+}
+
+.col-3 {
+  padding-top: 2em;
+}
+#visits button {
+  width: 100%;
 }

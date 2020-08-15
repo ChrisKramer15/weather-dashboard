@@ -16,12 +16,70 @@
     </header>
     <div class="row">
       <div class="col-3">
-        <input type="text" id="citySearch" />
-        <button class="danger-btn">Search</button>
+        <h2>City Weather Search</h2>
+        <input type="text" id="cityInput" />
+        <button id="submitBtn">Search</button>
+        <h2>Recent Searches</h2>
+        <section id="visits"></section>
       </div>
       <div class="col-8">
-        this is for the 5 day forcast
+        <div class="container" id="contain">
+          <table class="table">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+          <table class="forecast">
+            <h2 class="five-day">5 Day Forecast</h2>
+            <div class="forecastCard">
+              <div
+                class="card text-white bg-success mb-3"
+                style="max-width: 18rem;"
+                id="card1"
+              >
+                <div class="card-body"></div>
+              </div>
+            </div>
+            <div class="forecastCard">
+              <div
+                class="card text-white bg-success mb-3"
+                style="max-width: 18rem;"
+                id="card2"
+              >
+                <div class="card-body"></div>
+              </div>
+            </div>
+            <div class="forecastCard">
+              <div
+                class="card text-white bg-success mb-3"
+                style="max-width: 18rem;"
+                id="card3"
+              >
+                <div class="card-body"></div>
+              </div>
+            </div>
+            <div class="forecastCard">
+              <div
+                class="card text-white bg-success mb-3"
+                style="max-width: 18rem;"
+                id="card4"
+              >
+                <div class="card-body"></div>
+              </div>
+            </div>
+            <div class="forecastCard">
+              <div
+                class="card text-white bg-success mb-3"
+                style="max-width: 18rem;"
+                id="card5"
+              >
+                <div class="card-body"></div>
+              </div>
+            </div>
+          </table>
+        </div>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./scripts.js"></script>
   </body>
 </html>
